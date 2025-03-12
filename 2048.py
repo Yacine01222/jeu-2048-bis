@@ -17,8 +17,6 @@ taille_case = 100
 import tkinter as tk
 
 
-
-
 fenetre = tk.Tk()
 fenetre.title('2048')
 label_title = tk.Label(fenetre, text = "2048", font = ("Arial", 20), bg = "#df9d97", fg = "white")
@@ -38,7 +36,16 @@ def draw():
     for i in range(4):
         for j in range(4):
             carre = canvas.create_rectangle(i*taille_case, j*taille_case, (i+1)*taille_case, (j+1)*taille_case)
-            liste_carre.append(canvas.coords(carre))
+            text_carre = tk.Label(canvas, font = ("Arial",64),fg = "white")
+            liste_carre.append({
+                "x":i, 
+                "y":j,
+                "valeur":0,
+                "label": text_carre
+            }) 
+            canvas.coords(carre)
+            text_carre.place(x=i*taille_case + 1, y=j*taille_case + 1,width = taille_case -2 , height=taille_case -2)
+
 
 # Boutons
 left_button = tk.Button(fenetre, text="←", fg = "black", font=("Arial","15"))  #command=gauche
@@ -56,6 +63,9 @@ def haut():
     return
 
 def bas():
+    return
+
+def random_number():
     return
 
 left_button.place(relx=0.80, rely=0.5, anchor="center")   # command = gauche
