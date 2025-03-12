@@ -43,7 +43,7 @@ def draw():
                 "valeur":0,
                 "label": text_carre
             }) 
-            canvas.coords(carre)
+            text_carre.config(text='0')
             text_carre.place(x=i*taille_case + 1, y=j*taille_case + 1,width = taille_case -2 , height=taille_case -2)
 
 
