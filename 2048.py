@@ -45,11 +45,6 @@ def draw():
             text_carre.place(x=i*taille_case + 1, y=j*taille_case + 1,width = taille_case -2 , height=taille_case -2)
 
 
-# Boutons
-left_button = tk.Button(fenetre, text="←", fg = "black", font=("Arial","15"))  #command=gauche
-right_button = tk.Button(fenetre, text="→", fg = "black", font=("Arial","15")) #command=droite
-up_button = tk.Button(fenetre, text="↑",  fg = "black", font=("Arial","15")) #command=haut
-down_button = tk.Button(fenetre, text="↓", fg = "black", font=("Arial","15"))#command=bas
 
 def gauche():
     update_labels()
@@ -82,6 +77,16 @@ def update_labels():
         else:
             carre["label"].config(text = str(carre["valeur"]))
 
+def start():
+    get_random_free_cell()["valeur"] = 2
+    get_random_free_cell()["valeur"] = 2
+    update_labels()
+
+# Boutons
+left_button = tk.Button(fenetre, text="←", fg = "black", font=("Arial","15"),command= gauche)  #command=gauche
+right_button = tk.Button(fenetre, text="→", fg = "black", font=("Arial","15"),command = droite) #command=droite
+up_button = tk.Button(fenetre, text="↑",  fg = "black", font=("Arial","15"),command=haut) #command=haut
+down_button = tk.Button(fenetre, text="↓", fg = "black", font=("Arial","15"),command=bas)#command=bas
 
 left_button.place(relx=0.80, rely=0.5, anchor="center")   # command = gauche
 right_button.place(relx=0.90, rely=0.5, anchor="center")  # command = droite
@@ -91,6 +96,7 @@ down_button.place(relx=0.85, rely=0.58, anchor="center")  #command = bas
 
 draw() #appelle la fonction qui dessine les cases
 
+start()
 # Ajouter le canevas à la fenêtre
 canvas.pack(expand=True)
 
