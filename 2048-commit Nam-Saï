@@ -19,3 +19,41 @@ colors = {
         131072: "#9633FF",
         }
 
+#cases disponibles pour apparition de nouvelles tuiles : 2 ou 4
+
+import random as rd
+from tkinter import messagebox
+
+liste_carre = []
+liste_carre_disponible = []
+
+def chiffre_dans_une_case():
+    """ Fonction qui ajoute une tuile aléatoirement """
+    global liste_carre_disponible
+    global liste_carre
+    
+    n = len(liste_carre_disponible)
+    cases_vides = []
+    
+    for i in range(n):
+        if liste_carre_disponible[i][2] == 0:
+            cases_vides.append(i)
+    
+    if cases_vides:
+        index = rd.choice(cases_vides)
+        i, j = liste_carre_disponible[index][:2]
+        valeur = rd.choice([2, 2 , 2 , 2 , 2 , 2 , 2 , 2 , 4])
+        liste_carre_disponible[index][2] = valeur
+        
+        carre = canvas.create_rectangle(j*taille_case, i*taille_case, (j+1)*taille_case, (i+1)*taille_case, fill=colors[valeur], outline="#000000")
+        carre_texte = canvas.create_text(j*taille_case + taille_case/2, i*taille_case + taille_case/2, text=str(valeur), font=("Courrier", 20, "bold"))
+        liste_carre.append((carre, carre_texte))
+        
+        if len(cases_vides) == 1:
+            messagebox.showinfo("2048", "Partie terminée \nVotre score est de : {}".format(score))
+            relancer()
+
+#executions
+liste_carre_disponible = [[i,j,0] for i in range(4) for j in range(4)]
+chiffre_dans_une_case()
+chiffre_dans_une_case()
