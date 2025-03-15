@@ -120,7 +120,7 @@ def augmenter_score():
     score_label.config(text="Score : " + str(score))
 
 def update_canvas():
-#Fonction pour mettre à jour la grille et fusionner les case"""
+#Fonction pour mettre à jour la grille et fusionner les case
     global canvas
     global liste_carre_disponible
     global colors
@@ -143,7 +143,7 @@ def update_canvas():
 
 #Initialisation de la liste des carrés disponibles
 def chiffre_dans_une_case():
-    """ Fonction qui ajoute une tuile aléatoirement """
+#Fonction qui ajoute une case(tuile) aléatoirement
     global liste_carre_disponible
     global liste_carre
     
