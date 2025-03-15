@@ -24,6 +24,8 @@ colors = {
 import random as rd
 from tkinter import messagebox
 
+taille_case = 100
+
 liste_carre = []
 liste_carre_disponible = []
 
