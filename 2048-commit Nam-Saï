@@ -1,61 +1,28 @@
 #couleur des cases
 colors = {
-        2 : "#A7A7A7",
-        4 : "#DCD781",
-        8 : "#F3A246",
-        16 : "#F7721C",
-        32 : "#F7441C",
-        64 : "#F72D1C",
-        128 : "#DEDB0A",
-        256 : "#EFEC0B",
-        512 : "#FFD903",
-        1024 : "#E0C841",
-        2048 : "#FFFB00",
-        4096: "#707066",
-        8192: "#5A5A51",
-        16384: "#44443D",
-        32768: "#34342E",
-        65536: "#272723",
-        131072: "#9633FF",
+        2: "#EDE7DC",   # Beige doux
+        4: "#ECE0C8",   # Crème
+        8: "#F4A261",   # Orange pâle
+        16: "#F68C5F",  # Orange plus foncé
+        32: "#F76E4E",  # Rouge-orangé
+        64: "#F65032",  # Rouge vif
+        128: "#E8C35C", # Jaune doré
+        256: "#E8B94A", # Jaune plus foncé
+        512: "#E8AE3D", # Jaune orangé
+        1024: "#E89C20", # Or
+        2048: "#E88C0E", # Doré intense
+        4096: "#3D3A33", # Gris foncé (valeurs élevées)
+        8192: "#2C2B25",
         }
 
-#cases disponibles pour apparition de nouvelles tuiles : 2 ou 4
-
-import random as rd
-from tkinter import messagebox
-
-taille_case = 100
-
-liste_carre = []
-liste_carre_disponible = []
-
-def chiffre_dans_une_case():
-    """ Fonction qui ajoute une tuile aléatoirement """
-    global liste_carre_disponible
-    global liste_carre
-    
-    n = len(liste_carre_disponible)
-    cases_vides = []
-    
-    for i in range(n):
-        if liste_carre_disponible[i][2] == 0:
-            cases_vides.append(i)
-    
+def ajouter_nouvelle_tuile():
+    """Ajoute une nouvelle tuile (2 ou 4) à une position vide dans la grille."""
+    cases_vides = [(ligne, colonne) for ligne in range(TAILLE_GRILLE) for colonne in range(TAILLE_GRILLE) if grille[ligne][colonne] == 0]
     if cases_vides:
-        index = rd.choice(cases_vides)
-        i, j = liste_carre_disponible[index][:2]
-        valeur = rd.choice([2, 2 , 2 , 2 , 2 , 2 , 2 , 2 , 4])
-        liste_carre_disponible[index][2] = valeur
-        
-        carre = canvas.create_rectangle(j*taille_case, i*taille_case, (j+1)*taille_case, (i+1)*taille_case, fill=colors[valeur], outline="#000000")
-        carre_texte = canvas.create_text(j*taille_case + taille_case/2, i*taille_case + taille_case/2, text=str(valeur), font=("Courrier", 20, "bold"))
-        liste_carre.append((carre, carre_texte))
-        
-        if len(cases_vides) == 1:
-            messagebox.showinfo("2048", "Partie terminée \nVotre score est de : {}".format(score))
-            relancer()
+        ligne, colonne = random.choice(cases_vides)
+        grille[ligne][colonne] = random.choice([2, 4])
 
-#executions
-liste_carre_disponible = [[i,j,0] for i in range(4) for j in range(4)]
-chiffre_dans_une_case()
-chiffre_dans_une_case()
+dessiner_gridlle()
+
+
+
