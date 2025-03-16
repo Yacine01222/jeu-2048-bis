@@ -102,6 +102,82 @@ canvas.pack(expand=True)
 
 liste_carre_disponible = [[i,j,0] for i in range(4) for j in range(4)]
 
+#Initailisation du score
+score = 0
+check = 0
+#List stockant les carrés
+liste_carre = []
+liste_carre_disponible = [] # pas le bon nom -> tous les carrés de la grille
 
+#afficher label score 
+#Afficher le score
+score_label = tk.Label(fenetre, text="Score : " + str(score), font = ("helvetica", "20"))
+score_label.pack()
+
+#augmenter le score 
+def augmenter_score():
+    global score
+    score_label.config(text="Score : " + str(score))
+
+def update_canvas():
+#Fonction pour mettre à jour la grille et fusionner les case
+    global canvas
+    global liste_carre_disponible
+    global colors
+    
+    canvas.delete("all") # supprime tout les éléments concernés pour canva
+    
+    for i in range(4):
+        for j in range(4):
+            x0 = j * taille_case
+            y0 = i * taille_case
+            x1 = x0 + taille_case
+            y1 = y0 + taille_case
+            valeur = liste_carre_disponible[i*4+j][2]
+            couleur = colors.get(valeur, "#FFFFFF")
+            canvas.create_rectangle(x0, y0, x1, y1, fill=couleur, outline="#000000")
+            if valeur != 0:
+                canvas.create_text((x0 + x1) / 2, (y0 + y1) / 2, text=str(valeur), font=("Courrier", 20, "bold"))
+        
+    canvas.pack()
+
+#Initialisation de la liste des carrés disponibles
+def chiffre_dans_une_case():
+#Fonction qui ajoute une case(tuile) aléatoirement
+    global liste_carre_disponible
+    global liste_carre
+    
+    n = len(liste_carre_disponible)
+    cases_vides = []
+    
+    for i in range(n):
+        if liste_carre_disponible[i][2] == 0:
+            cases_vides.append(i)
+    
+    if cases_vides:
+        index = rd.choice(cases_vides)
+        i, j = liste_carre_disponible[index][:2]
+        valeur = rd.choice([2, 2 , 2 , 2 , 2 , 2 , 2 , 2 , 4])
+        liste_carre_disponible[index][2] = valeur
+        
+        carre = canvas.create_rectangle(j*taille_case, i*taille_case, (j+1)*taille_case, (i+1)*taille_case, fill=colors[valeur], outline="#000000")
+        carre_texte = canvas.create_text(j*taille_case + taille_case/2, i*taille_case + taille_case/2, text=str(valeur), font=("Courrier", 20, "bold"))
+        liste_carre.append((carre, carre_texte))
+        
+        if len(cases_vides) == 1:
+            messagebox.showinfo("2048", "Partie terminée \nVotre score est de : {}".format(score))
+            relancer()
+
+# relancer la partie avec la fonction relancer
+def relancer():
+    """Permet de relancer la partie"""
+    global liste_carre_disponible
+    global score
+    score = 0
+    augmenter_score()
+    liste_carre_disponible = [[i,j,0] for i in range(4) for j in range(4)]
+    update_canvas()
+    chiffre_dans_une_case()
+    chiffre_dans_une_case()
 
 fenetre.mainloop()
