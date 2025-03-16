@@ -45,21 +45,20 @@ def draw():
             text_carre.place(x=i*taille_case + 1, y=j*taille_case + 1,width = taille_case -2 , height=taille_case -2)
 
 
-
 def gauche():
-    update_labels()
+    turn()
     return
 
 def droite():
-    update_labels()
+    turn()
     return
 
 def haut():
-    update_labels()
+    turn()
     return
 
 def bas():
-    update_labels()
+    turn()
     return
 
 def get_random_free_cell():
@@ -67,7 +66,15 @@ def get_random_free_cell():
     for carre in liste_carre:
         if carre["valeur"]==0:
             case_libre.append(carre)
+    
     return case_libre[rd.randint(0,len(case_libre))]
+
+def is_complete_grid() -> bool:
+    for carre in liste_carre:
+        if carre["valeur"] == 0:
+            return False
+        
+    return True
 
 # permet de mettre à jour les cases 
 def update_labels(): 
@@ -82,6 +89,14 @@ def start():
     get_random_free_cell()["valeur"] = 2
     update_labels()
 
+def turn():
+    update_labels()
+    if is_complete_grid() == False:
+        get_random_free_cell()["valeur"] = 2
+        update_labels #mise à jour d'affichage 
+
+
+
 # Boutons
 left_button = tk.Button(fenetre, text="←", fg = "black", font=("Arial","15"),command= gauche)  #command=gauche
 right_button = tk.Button(fenetre, text="→", fg = "black", font=("Arial","15"),command = droite) #command=droite
@@ -95,8 +110,8 @@ down_button.place(relx=0.85, rely=0.58, anchor="center")  #command = bas
 
 
 draw() #appelle la fonction qui dessine les cases
-
 start()
+
 # Ajouter le canevas à la fenêtre
 canvas.pack(expand=True)
 
@@ -106,8 +121,6 @@ liste_carre_disponible = [[i,j,0] for i in range(4) for j in range(4)]
 score = 0
 check = 0
 #List stockant les carrés
-liste_carre = []
-liste_carre_disponible = [] # pas le bon nom -> tous les carrés de la grille
 
 #afficher label score 
 #Afficher le score
