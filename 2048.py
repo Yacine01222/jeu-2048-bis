@@ -32,20 +32,33 @@ liste_carre = []
 
 def draw(): 
     """Dessiner le carré avec des dimensions de taille_casextaille_case pixels pour chaque case"""
-    for i in range(4):
-        for j in range(4):
-            canvas.create_rectangle(i*taille_case, j*taille_case, (i+1)*taille_case, (j+1)*taille_case)
+    for y in range(4):
+        for x in range(4):
+            canvas.create_rectangle(x*taille_case, y*taille_case, (y+1)*taille_case, (x+1)*taille_case)
             text_carre = tk.Label(canvas, font = ("Arial",64),fg = "white")
             liste_carre.append({
-                "x":i, 
-                "y":j,
+                "x":x,
+                "y":y,
                 "valeur":0,
                 "label": text_carre
             })
-            text_carre.place(x=i*taille_case + 1, y=j*taille_case + 1,width = taille_case -2 , height=taille_case -2)
+            text_carre.place(x=x * taille_case + 1, y=y * taille_case + 1, width=taille_case -2 , height=taille_case -2)
 
 
 def gauche():
+    decale = True
+    while decale == True: # une boucle qui décale tant que c'est possible 
+        decale = False
+
+        for y in range(4): 
+            for x in range(3, 0, -1):
+                carre = liste_carre[x + y * 4]
+                voisine = liste_carre[x + y * 4 - 1]
+                if carre["valeur"] == voisine["valeur"] or voisine["valeur"] == 0: 
+                    voisine["valeur"] += carre["valeur"]
+                    carre["valeur"] = 0
+                    decale = True
+    
     turn()
     return
 
@@ -61,14 +74,16 @@ def bas():
     turn()
     return
 
+# Choisir de manière aléatoire une case vide 
 def get_random_free_cell():
     case_libre = []
     for carre in liste_carre:
         if carre["valeur"]==0:
             case_libre.append(carre)
     
-    return case_libre[rd.randint(0,len(case_libre))]
+    return case_libre[rd.randint(0, len(case_libre) - 1)]
 
+# permet de vérifier si toutes les cases sont remplies 
 def is_complete_grid() -> bool:
     for carre in liste_carre:
         if carre["valeur"] == 0:
@@ -83,17 +98,19 @@ def update_labels():
             carre["label"].config(text = str(""))
         else:
             carre["label"].config(text = str(carre["valeur"]))
-
+# permet d'afficher 
 def start():
+    draw()
     get_random_free_cell()["valeur"] = 2
     get_random_free_cell()["valeur"] = 2
     update_labels()
 
+#effectue un tour de jeux 
 def turn():
-    update_labels()
     if is_complete_grid() == False:
         get_random_free_cell()["valeur"] = 2
-        update_labels #mise à jour d'affichage 
+
+    update_labels() #mise à jour d'affichage 
 
 
 
@@ -109,7 +126,6 @@ up_button.place(relx=0.85, rely=0.42, anchor="center")    # command = haut
 down_button.place(relx=0.85, rely=0.58, anchor="center")  #command = bas
 
 
-draw() #appelle la fonction qui dessine les cases
 start()
 
 # Ajouter le canevas à la fenêtre
