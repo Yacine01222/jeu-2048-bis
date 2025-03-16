@@ -56,11 +56,46 @@ def droite():
     return
 
 def haut():
-    update_labels()
+    "Déplace toutes les tuiles vers le bas et fusionner si nécessaire."
+    global liste_carre_disponible
+
+    for colonne in range(4):
+        nouvelle_colonne = [liste_carre_disponible[ligne * 4 + colonne][2] for ligne in range(4) if liste_carre_disponible[ligne * 4 + colonne][2] != 0]
+        nouvelle_colonne = [0] * (4 - len(nouvelle_colonne)) + nouvelle_colonne
+
+        for ligne in range(3, 0, -1):
+            if nouvelle_colonne[ligne] == nouvelle_colonne[ligne - 1] and nouvelle_colonne[ligne] != 0:
+                nouvelle_colonne[ligne] *= 2
+                nouvelle_colonne[ligne - 1] = 0
+
+        nouvelle_colonne = [0] * (4 - len([valeur for valeur in nouvelle_colonne if valeur != 0])) + [valeur for valeur in nouvelle_colonne if valeur != 0]
+
+        for ligne in range(4):
+            liste_carre_disponible[ligne * 4 + colonne][2] = nouvelle_colonne[ligne]
+
+    update_canvas()
     return
 
 def bas():
-    update_labels()
+    """Déplace toutes les tuiles vers le haut et gère les fusions."""
+    global liste_carre_disponible
+
+    for colonne in range(4):
+        nouvelle_colonne = [liste_carre_disponible[ligne * 4 + colonne][2] for ligne in range(4) if liste_carre_disponible[ligne * 4 + colonne][2] != 0]
+        nouvelle_colonne += [0] * (4 - len(nouvelle_colonne))
+
+        for ligne in range(3):
+            if nouvelle_colonne[ligne] == nouvelle_colonne[ligne + 1] and nouvelle_colonne[ligne] != 0:
+                nouvelle_colonne[ligne] *= 2
+                nouvelle_colonne[ligne + 1] = 0
+
+        nouvelle_colonne = [valeur for valeur in nouvelle_colonne if valeur != 0]
+        nouvelle_colonne += [0] * (4 - len(nouvelle_colonne))
+
+        for ligne in range(4):
+            liste_carre_disponible[ligne * 4 + colonne][2] = nouvelle_colonne[ligne]
+
+    update_canvas()
     return
 
 def get_random_free_cell():
