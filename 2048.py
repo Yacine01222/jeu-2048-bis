@@ -187,6 +187,5 @@ def relancer():
 
     update_canvas()
     chiffre_dans_une_case()
-    chiffre_dans_une_case()
 
 fenetre.mainloop()
