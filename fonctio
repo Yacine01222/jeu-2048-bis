@@ -1,8 +1,0 @@
-def fonctionnement():
-  if k==g:
-  k=k*2
-  g=0
-#principe du fonctionnement du 2048 : si un nombre g est égal à un nombre k alors k est multiplié par 2 et g disparait(devient égal à 0)
-#apparition des nombres : spawn
-def spawn_nombre():
-  nouveau_nombre=random.randint(2,4,2)

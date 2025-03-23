@@ -1,0 +1,5 @@
+- Finir l'implémentation des mouvements haut, bas, droite
+- Mettre en place le 2 ou 4 aléatoire (90% de chance d'obtenir un 2)
+- Affichage du score à chaque tour dans la fonction turn
+- Fin de jeu avec un bouton Rejouer qui redémarre la partie
+- Rendre l'interface plus conviviale
