@@ -124,3 +124,5 @@ score_label.pack()
 start()
 
 fenetre.mainloop()
+
+"test"
