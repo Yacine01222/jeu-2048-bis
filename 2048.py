@@ -26,6 +26,22 @@ def gauche():
     return
 
 def droite():
+    for y in range(4):
+        x = 0
+        while x < 3:
+            carre = liste_carre[x + y * 4]
+            voisine = liste_carre[x + y * 4 + 1]
+            x += 2 if voisine['valeur'] == carre['valeur'] else 1
+
+            if voisine['valeur'] == 0 or voisine['valeur'] == carre['valeur']:
+                voisine['valeur'] += carre['valeur']
+                carre['valeur'] = 0
+
+    turn()
+    return
+    
+        
+        
     turn()
     return
 
