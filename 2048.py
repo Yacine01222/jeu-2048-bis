@@ -120,9 +120,12 @@ COULEURS_CASES = {
 def update_labels(): 
     for carre in liste_carre:
         if carre["valeur"] < 2:
-            carre["label"].config(text = str(""))
+            carre["label"].config(text = str("") , bg =COULEURS_CASES[0])
         else:
-            carre["label"].config(text = str(carre["valeur"]))
+            couleur = COULEURS_CASES.get(carre["valeur"])
+            
+            texte_couleur = "#776e65"
+            carre["label"].config(text = str(carre["valeur"]), bg = couleur,fg=texte_couleur)
 
 # permet d'initialiser le jeu
 def start():
