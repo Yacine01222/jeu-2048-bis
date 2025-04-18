@@ -99,6 +99,23 @@ def is_complete_grid() -> bool:
         
     return True
 
+COULEURS_CASES = {
+    0: "#d2c8a3",    
+    2: "#e2d9b1",   
+    4: "#e2d1a1",   
+    8: "#f1a764",    
+    16: "#f48750",   
+    32: "#f75f50",   
+    64: "#f75c32",   
+    128: "#e0ca5e", 
+    256: "#e0c34f",  
+    512: "#e0b444",  
+    1024: "#e0a030",
+    2048: "#e08c1f", 
+  
+}
+
+
 # permet de mettre à jour les cases 
 def update_labels(): 
     for carre in liste_carre:
