@@ -37,6 +37,14 @@ def droite():
                 voisine['valeur'] += carre['valeur']
                 carre['valeur'] = 0
 
+<<<<<<< HEAD
+=======
+    turn()
+    return
+    
+        
+        
+>>>>>>> 8c677501aa23433b139918c682e0f9b9fe67a856
     turn()
     return
     
