@@ -37,20 +37,7 @@ def droite():
                 voisine['valeur'] += carre['valeur']
                 carre['valeur'] = 0
 
-<<<<<<< HEAD
-=======
-    turn()
-    return
-    
         
-        
->>>>>>> 8c677501aa23433b139918c682e0f9b9fe67a856
-    turn()
-    return
-    
-        
-
-
 def haut():
     for x in range(4):  
         y = 1 
@@ -74,8 +61,26 @@ def haut():
 
 
 def bas():
+    for x in range(4):  
+        y = 2 
+
+        while y >= 0: 
+            carre = liste_carre[x + y * 4]  
+            voisine = liste_carre[x + (y + 1) * 4] 
+
+            if voisine['valeur'] == 0 or voisine['valeur'] == carre['valeur']:
+                if voisine['valeur'] == 0:
+                    voisine['valeur'] = carre['valeur']
+                else:
+                    voisine['valeur'] *= 2
+
+                carre['valeur'] = 0
+            
+            y -= 1 
+
     turn()
     return
+
 
 # Choisir de manière aléatoire une case vide 
 def get_random_free_cell():
