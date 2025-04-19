@@ -23,7 +23,7 @@ def gauche():
                 carre['valeur'] = 0
             
     turn()
-    return
+
 
 def droite():
     for y in range(4):
@@ -36,7 +36,7 @@ def droite():
             if voisine['valeur'] == 0 or voisine['valeur'] == carre['valeur']:
                 voisine['valeur'] += carre['valeur']
                 carre['valeur'] = 0
-
+    turn()
         
 def haut():
     for x in range(4):  
@@ -57,7 +57,7 @@ def haut():
             y += 1
 
     turn() 
-    return
+
 
 
 def bas():
@@ -79,7 +79,7 @@ def bas():
             y -= 1 
 
     turn()
-    return
+
 
 
 # Choisir de manière aléatoire une case vide 
