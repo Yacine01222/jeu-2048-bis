@@ -12,75 +12,84 @@ TAILLE_CASE = 100
 
 def gauche():
     for y in range(4):
-        x = 3
-        while x > 0:
-            carre = liste_carre[x + y * 4]
-            voisine = liste_carre[x + y * 4 - 1] 
-            x -= 2 if voisine['valeur'] == carre['valeur'] else 1
+        for x in range(3): #fusion
+            valeur = liste_carre[x + y * 4]['valeur']
+            if valeur > 0:
+                x2 = x + 1
+                while x2 < 4 and liste_carre[x2 + y * 4]['valeur'] == 0: x2 += 1
+                if x2 < 4 and liste_carre[x2 + y * 4]['valeur'] == valeur:
+                    liste_carre[x + y * 4]['valeur'] *= 2
+                    liste_carre[x2 + y * 4]['valeur'] = 0
 
-            if voisine['valeur'] == 0 or voisine['valeur'] == carre['valeur']:
-                voisine['valeur'] += carre['valeur']
-                carre['valeur'] = 0
-            
+        for _ in range(3):
+            for x in range(3, 0, -1):
+                actuel_id, voisine_id = x + y * 4, x + y * 4 - 1
+                if liste_carre[voisine_id]['valeur'] == 0:
+                    liste_carre[voisine_id]['valeur'] = liste_carre[actuel_id]['valeur']
+                    liste_carre[actuel_id]['valeur'] = 0
+
     turn()
 
 
 def droite():
     for y in range(4):
-        x = 0
-        while x < 3:
-            carre = liste_carre[x + y * 4]
-            voisine = liste_carre[x + y * 4 + 1]
-            x += 2 if voisine['valeur'] == carre['valeur'] else 1
+        for x in range(3, 0, -1): #fusion
+            valeur = liste_carre[x + y * 4]['valeur']
+            if valeur > 0:
+                x2 = x - 1
+                while x2 > -1 and liste_carre[x2 + y * 4]['valeur'] == 0: x2 -= 1
+                if x2 > -1 and liste_carre[x2 + y * 4]['valeur'] == valeur:
+                    liste_carre[x + y * 4]['valeur'] *= 2
+                    liste_carre[x2 + y * 4]['valeur'] = 0
 
-            if voisine['valeur'] == 0 or voisine['valeur'] == carre['valeur']:
-                voisine['valeur'] += carre['valeur']
-                carre['valeur'] = 0
+        for _ in range(3):
+            for x in range(3): #glissement
+                actuel_id, voisine_id = x + y * 4, x + y * 4 + 1
+                if liste_carre[voisine_id]['valeur'] == 0:
+                    liste_carre[voisine_id]['valeur'] = liste_carre[actuel_id]['valeur']
+                    liste_carre[actuel_id]['valeur'] = 0
     turn()
         
 def haut():
-    for x in range(4):  
-        y = 1 
+    for x in range(4):
+        for y in range(3): #fusion
+            valeur = liste_carre[x + y * 4]['valeur']
+            if valeur > 0:
+                y2 = y + 1
+                while y2 < 4 and liste_carre[x + y2 * 4]['valeur'] == 0: y2 += 1
+                if y2 < 4 and liste_carre[x + y2 * 4]['valeur'] == valeur:
+                    liste_carre[x + y * 4]['valeur'] *= 2
+                    liste_carre[x + y2 * 4]['valeur'] = 0
 
-        while y < 4:  
-            carre = liste_carre[x + y * 4]  
-            voisine = liste_carre[x + (y - 1) * 4] 
-
-            if voisine['valeur'] == 0 or voisine['valeur'] == carre['valeur']:
-                if voisine['valeur'] == 0:
-                    voisine['valeur'] = carre['valeur']
-                else:
-                    voisine['valeur'] *= 2
-
-                carre['valeur'] = 0
-            
-            y += 1
+        for _ in range(3):
+            for y in range(3, 0, -1): #glissement
+                actuel_id, voisine_id = x + y * 4, x + (y - 1) * 4
+                if liste_carre[voisine_id]['valeur'] == 0:
+                    liste_carre[voisine_id]['valeur'] = liste_carre[actuel_id]['valeur']
+                    liste_carre[actuel_id]['valeur'] = 0
 
     turn() 
 
 
 
 def bas():
-    for x in range(4):  
-        y = 2 
+    for x in range(4):
+        for y in range(3, 0, -1): #fusion
+            valeur = liste_carre[x + y * 4]['valeur']
+            if valeur > 0:
+                y2 = y - 1
+                while y2 > -1 and liste_carre[x + y2 * 4]['valeur'] == 0: y2 -= 1
+                if y2 > -1 and liste_carre[x + y2 * 4]['valeur'] == valeur:
+                    liste_carre[x + y * 4]['valeur'] *= 2
+                    liste_carre[x + y2 * 4]['valeur'] = 0
 
-        while y >= 0: 
-            carre = liste_carre[x + y * 4]  
-            voisine = liste_carre[x + (y + 1) * 4] 
-
-            if voisine['valeur'] == 0 or voisine['valeur'] == carre['valeur']:
-                if voisine['valeur'] == 0:
-                    voisine['valeur'] = carre['valeur']
-                else:
-                    voisine['valeur'] *= 2
-
-                carre['valeur'] = 0
-            
-            y -= 1 
-
+        for _ in range(3):
+            for y in range(3): #glissement
+                actuel_id, voisine_id = x + y * 4, x + (y + 1) * 4
+                if liste_carre[voisine_id]['valeur'] == 0:
+                    liste_carre[voisine_id]['valeur'] = liste_carre[actuel_id]['valeur']
+                    liste_carre[actuel_id]['valeur'] = 0
     turn()
-
-
 
 # Choisir de manière aléatoire une case vide 
 def get_random_free_cell():
@@ -90,6 +99,7 @@ def get_random_free_cell():
             case_libre.append(carre)
     
     return case_libre[rd.randint(0, len(case_libre) - 1)]
+
 
 # permet de vérifier si toutes les cases sont remplies 
 def is_complete_grid() -> bool:
@@ -190,4 +200,3 @@ start()
 
 fenetre.mainloop()
 
-"test"
