@@ -7,10 +7,13 @@
 import tkinter as tk
 import random as rd
 import tkinter as tk
+import os.path
 
 TAILLE_CASE = 100
 
+
 def gauche():
+    global score 
     for y in range(4):
         for x in range(3): #fusion
             valeur = liste_carre[x + y * 4]['valeur']
@@ -20,6 +23,7 @@ def gauche():
                 if x2 < 4 and liste_carre[x2 + y * 4]['valeur'] == valeur:
                     liste_carre[x + y * 4]['valeur'] *= 2
                     liste_carre[x2 + y * 4]['valeur'] = 0
+                    score += valeur
 
         for _ in range(3):
             for x in range(3, 0, -1):
@@ -32,6 +36,7 @@ def gauche():
 
 
 def droite():
+    global score 
     for y in range(4):
         for x in range(3, 0, -1): #fusion
             valeur = liste_carre[x + y * 4]['valeur']
@@ -41,6 +46,7 @@ def droite():
                 if x2 > -1 and liste_carre[x2 + y * 4]['valeur'] == valeur:
                     liste_carre[x + y * 4]['valeur'] *= 2
                     liste_carre[x2 + y * 4]['valeur'] = 0
+                    score += valeur
 
         for _ in range(3):
             for x in range(3): #glissement
@@ -51,6 +57,7 @@ def droite():
     turn()
         
 def haut():
+    global score 
     for x in range(4):
         for y in range(3): #fusion
             valeur = liste_carre[x + y * 4]['valeur']
@@ -60,6 +67,7 @@ def haut():
                 if y2 < 4 and liste_carre[x + y2 * 4]['valeur'] == valeur:
                     liste_carre[x + y * 4]['valeur'] *= 2
                     liste_carre[x + y2 * 4]['valeur'] = 0
+                    score += valeur
 
         for _ in range(3):
             for y in range(3, 0, -1): #glissement
@@ -73,6 +81,7 @@ def haut():
 
 
 def bas():
+    global score 
     for x in range(4):
         for y in range(3, 0, -1): #fusion
             valeur = liste_carre[x + y * 4]['valeur']
@@ -82,6 +91,7 @@ def bas():
                 if y2 > -1 and liste_carre[x + y2 * 4]['valeur'] == valeur:
                     liste_carre[x + y * 4]['valeur'] *= 2
                     liste_carre[x + y2 * 4]['valeur'] = 0
+                    score += valeur
 
         for _ in range(3):
             for y in range(3): #glissement
@@ -160,9 +170,39 @@ def init_grid():
 
 #effectue un tour de jeux 
 def turn():
+    global best_score
     if is_complete_grid() == False:
         get_random_free_cell()["valeur"] = 2
+    elif score > best_score:
+        best_score = score
+        write_best_score(best_score)
+        best_score_label.config(text = "Meilleur Score : " + str(best_score))
     update_labels() #mise à jour d'affichage 
+    score_label.config(text = "Score : " + str(score))
+
+
+
+def read_best_score():
+    if os.path.isfile("score")== False:
+        return 0
+    file = open("score","r")
+    score = int(file.read())
+    file.close()
+    return score
+
+
+def write_best_score(score):
+    file = open("score","w")
+    file.write(str(score))
+    file.close()
+
+
+
+#Initailisation du score
+score = 0
+best_score = read_best_score()
+
+
 
 
 fenetre = tk.Tk()
@@ -190,10 +230,10 @@ down_button.place(relx=0.85, rely=0.58, anchor="center")
 # Ajouter le canevas à la fenêtre
 canvas.pack(expand=True)
 
-#Initailisation du score
-score = 0
-
 #afficher label score 
+
+best_score_label = tk.Label(fenetre,text="Meilleur Score : " + str(best_score), font = ("helvetica", "20"))
+best_score_label.pack()
 score_label = tk.Label(fenetre, text="Score : " + str(score), font = ("helvetica", "20"))
 score_label.pack()
 start()
