@@ -172,7 +172,7 @@ def init_grid():
 def turn():
     global best_score
     if is_complete_grid() == False:
-        get_random_free_cell()["valeur"] = 2
+        get_random_free_cell()["valeur"] = 2 if rd.randint(0,100) < 90  else 4
     elif score > best_score:
         best_score = score
         write_best_score(best_score)
