@@ -216,6 +216,8 @@ def turn():
         best_score = score
         write_best_score(best_score)
         best_score_label.config(text = "Meilleurscore : " + str(best_score))
+    elif is_game_over():
+        game_over()
 
     update_grid_labels() #mise à jour d'affichage 
     score_label.config(text = "Score : " + str(score))
@@ -235,3 +237,33 @@ def write_best_score():
     file.write(str(best_score))
     file.close()
 
+#affiche partie terminée
+def afficher_message_fin():
+    msg = tk.Label(canvas, text="Partie terminée !", font=("Arial", 32), fg="red", bg="white")
+    msg.place(relx=0.5, rely=0.5, anchor="center")
+
+#verifié les cases autour pour voir si elles sont disponibles
+def is_game_over():
+    if not is_complete_grid():
+        return False
+
+    for y in range(4):
+        for x in range(4):
+            current_value = liste_carre[x + y * 4]['valeur']
+            if x < 3:
+                right_value = liste_carre[(x + 1) + y * 4]['valeur']
+                if current_value == right_value:
+                    return False
+            if y < 3:
+                down_value = liste_carre[x + (y + 1) * 4]['valeur']
+                if current_value == down_value:
+                    return False
+    return True
+
+
+#affiche une pop up avec le bouton quitter et la partie est terminée
+def game_over():
+    popup = tk.Toplevel()
+    popup.title("Fin de la partie")
+    tk.Label(popup, text="Partie terminée !", font=("Helvetica", 20)).pack(padx=20, pady=20)
+    tk.Button(popup, text="Quitter", command=popup.destroy).pack(pady=10)
