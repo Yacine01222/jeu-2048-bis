@@ -20,6 +20,10 @@ fenetre.geometry("800x800")
 game.build_game_interface(fenetre)
 game.start()
 
+fenetre.bind("<Left>", lambda event: game.gauche())
+fenetre.bind("<Right>", lambda event: game.droite())
+fenetre.bind("<Up>", lambda event: game.haut())
+fenetre.bind("<Down>", lambda event: game.bas())
 
 fenetre.mainloop()
 

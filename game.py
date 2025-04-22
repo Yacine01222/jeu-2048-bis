@@ -267,3 +267,4 @@ def game_over():
     popup.title("Fin de la partie")
     tk.Label(popup, text="Partie terminée !", font=("Helvetica", 20)).pack(padx=20, pady=20)
     tk.Button(popup, text="Quitter", command=popup.destroy).pack(pady=10)
+
