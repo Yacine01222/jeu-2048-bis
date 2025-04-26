@@ -212,12 +212,14 @@ def turn():
     global best_score
     if is_complete_grid() == False:
         get_random_free_cell()["valeur"] = 2 if rd.randint(0,100) < 90  else 4
-    elif score > best_score:
-        best_score = score
-        write_best_score(best_score)
-        best_score_label.config(text = "Meilleurscore : " + str(best_score))
+        print("remplir aléatoirement à 2 ou 4 une case ")
     elif is_game_over():
         game_over()
+    if score > best_score:
+        best_score = score
+        print("new best score")
+        write_best_score(best_score)
+        best_score_label.config(text = "Meilleur score : " + str(best_score))
 
     update_grid_labels() #mise à jour d'affichage 
     score_label.config(text = "Score : " + str(score))
@@ -232,7 +234,7 @@ def read_best_score():
     file.close()
     return best_score
 
-def write_best_score():
+def write_best_score(best_score):
     file = open("score","w")
     file.write(str(best_score))
     file.close()
@@ -242,7 +244,7 @@ def afficher_message_fin():
     msg = tk.Label(canvas, text="Partie terminée !", font=("Arial", 32), fg="red", bg="white")
     msg.place(relx=0.5, rely=0.5, anchor="center")
 
-#verifié les cases autour pour voir si elles sont disponibles
+#verifié les cases pour voir si on peut encore fusionné 
 def is_game_over():
     if not is_complete_grid():
         return False
