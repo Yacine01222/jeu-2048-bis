@@ -64,18 +64,7 @@ def build_game_interface(fenetre):
     score_label = tk.Label(fenetre, text="Score : 0", font = ("helvetica", "20"))
     score_label.pack()
 
-def destroy_game_interface():
-    left_button.place_forget()
-    right_button.place_forget()
-    up_button.place_forget()
-    down_button.place_forget()
 
-    canvas.pack_forget()
-    best_score_label.pack_forget()
-    score_label.pack_forget()
-
-    for e in (left_button, right_button, up_button, down_button, canvas, best_score_label, score_label):
-        e.destroy()
 
 # Fonctions de déplacements
 def gauche():
@@ -265,8 +254,21 @@ def is_game_over():
 
 #affiche une pop up avec le bouton quitter et la partie est terminée
 def game_over():
+    def restart():
+        global score, score_label, best_score, best_score_label, liste_carre, canvas, left_button, right_button, up_button, down_button
+
+        for case in liste_carre:
+            case["valeur"] = 0
+
+        score = 0
+        score_label.config(text = "Score : " + str(score))
+        get_random_free_cell()["valeur"] = 2
+        get_random_free_cell()["valeur"] = 2
+        update_grid_labels()
+        popup.destroy()
+
     popup = tk.Toplevel()
     popup.title("Fin de la partie")
     tk.Label(popup, text="Partie terminée !", font=("Helvetica", 20)).pack(padx=20, pady=20)
-    tk.Button(popup, text="Quitter", command=popup.destroy).pack(pady=10)
+    tk.Button(popup, text="Rejouer", command=restart).pack(pady=10)
 
